@@ -16,6 +16,10 @@ void FillMatrix(int**& matr, int m, int n) {
 }
 
 void SwapRow(int**& matr, int n, int row1, int row2) {
+	if (row1 < 0 || row2 < 0 || row1 > n || row2 > n) {
+		cout << "Error" << endl;
+		return;
+	}
 	for (int j = 0; j < n; j += 1) {
 		int tmp = matr[row1][j];
 		matr[row1][j] = matr[row2][j];
@@ -42,7 +46,7 @@ int countElement(int** matr, int m, int n, int el) {
 	return ans;
 }
 
-void ColSum(int** matr, int m,int n, int*& sums) {
+void ColSum(int** matr, int m, int n, int*& sums) {
 	
 	for (int j = 0; j < n; j += 1) {
 		int sum = 0;
@@ -61,27 +65,38 @@ void deleteMatrix(int** matr, int m) {
 }
 
 void main() {
-	int** matr = new int*[3];
 	int n, m;
-	cin >> n >> m;
+	cin >> m >> n;
+	int** matr = new int*[m];
 	CreateMatrix(matr, m, n);
 	FillMatrix(matr, m, n);
 	ShowMatrix(matr, m, n);
-
+	
+	//Первое задание
 	cout << endl;
-	SwapRow(matr, n, 0, 1);
+	cout << "Enter row to swap: ";
+	int i, j;
+	cin >> i >> j;
+	SwapRow(matr, n, i - 1, j - 1);
 	ShowMatrix(matr, m, n);
+	
+	//Второе задание
+	cout << endl <<"Enter value to find: ";
+	int x;
+	cin >> x;
+	cout << "Occurs " << countElement(matr, m, n, x) << " times." << endl;
 
-	cout << endl << countElement(matr, m, n, 1) << endl;
-
+	//Третье задание
 	int* sums = new int[n];
 	ColSum(matr, m, n, sums);
 	ShowMatrix(matr, m, n);
+	for (int i = 0; i < n; i += 1) {
+		cout << ((i < n - 1) ? "__" : "_");
+	}
 	cout << endl;
 	for (int i = 0; i < n; i += 1) {
 		cout << sums[i] << " ";
 	}
-
 	deleteMatrix(matr, m);
 	delete[] sums;
 }
